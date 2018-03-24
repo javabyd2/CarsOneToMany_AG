@@ -8,6 +8,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,7 +148,7 @@ public class Main {
         transaction.commit();
 
 
-        // Wyświetlanie
+        // Wyświetlanie Adrian
         List<UserDetailsEntity> users = session.createQuery("FROM " + UserDetailsEntity.class.getName()).list();
 
         Map<Integer, String> idAndNameUsers = new HashMap<>();
@@ -162,10 +165,46 @@ public class Main {
             System.out.println("Pojazd " + item.getVehicleName() + " należy do " +
                                             idAndNameUsers.get(item.getUserDetailsEntity().getUserId()));
         }
-        // koniec wyświetlania
+        // Koniec wyświetlania Adrian
 
 
+        // Wyświetlanie CriteriaBuilder
+
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+
+        CriteriaQuery<VehicleEntity> vehicleEntityCriteriaQuery = criteriaBuilder.createQuery(VehicleEntity.class);
+        vehicleEntityCriteriaQuery.from(VehicleEntity.class);
+
+        List<VehicleEntity> vehicleEntitiesList = session.createQuery(vehicleEntityCriteriaQuery).getResultList();
+
+        for (VehicleEntity item : vehicleEntitiesList) {
+            System.out.println("Auto: " + item.getVehicleName() + " użytkownik: " + item.getUserDetailsEntity().getUserName());
+        }
+
+        // Koniec wyświetlania CriteriaBuilder
+
+        // Wyświetlanie Query
+        Query query = session.createQuery("FROM " + VehicleEntity.class.getName());
+
+        List<VehicleEntity> vehicleEntities = query.getResultList();
+
+        for (VehicleEntity item : vehicleEntities) {
+            System.out.println("Auto: " + item.getVehicleName()
+                        + " użytkownik: " + item.getUserDetailsEntity().getUserName());
+        }
+        // Koniec wyświetlania Query
+
+//        // Wyświetlanie Query
+//        Query query2 = session.createQuery("FROM " + UserDetailsEntity.class.getName());
+//
+//        List<UserDetailsEntity> userDetailsEntities = query.getResultList();
+//
+//        for (UserDetailsEntity item : userDetailsEntities) {
+//            System.out.println("Użytkownik: " + item.getUserName() + " posiada: " + item.getVehicles());
+//        }
+//        // Koniec wyświetlania Query
 
 
+sessionFactory.close();
     }
 }
