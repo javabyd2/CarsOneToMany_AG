@@ -33,7 +33,7 @@
         </property>
 
         <property name="hibernate.hbm2ddl.auto">create-drop</property>
-        <mapping class="com.sdabyd2.hibernate.entity.BookEntity"></mapping>
-        <mapping class="com.sdabyd2.hibernate.entity.CategoriesEntity"></mapping>
+<!--        <mapping class="com.sdabyd2.onetomany.entity.Vehicle"></mapping>    -->
+
     </session-factory>
 </hibernate-configuration>
